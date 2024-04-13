@@ -25,6 +25,5 @@ jobs:
         with:
           files: ./bin/Release/*/*/publish/*.exe
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ github.sha }}
-          release_name: ${{ github.sha }}
-          body: ${{ github.sha }}
+          name: v${{ github.run_number }}
+          body: Release \# ${{ github.run_number }}
