@@ -107,8 +107,8 @@ public partial class MainWindow
 
     private void CenterWindowAroundCursor()
     {
-        Point mousePos = Mouse.GetPosition(this);
-        Left = mousePos.X - Width / 2;
-        Top = mousePos.Y - Height / 2;
+        Point mousePos = PointToScreen(Mouse.GetPosition(this));
+        Left = mousePos.X - Width;
+        Top = mousePos.Y - Height;
     }
 }
