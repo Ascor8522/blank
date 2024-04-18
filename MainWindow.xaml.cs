@@ -31,8 +31,12 @@ public partial class MainWindow
     {
         if (e.ChangedButton != MouseButton.Left) return;
 
+        _resizeHandlerEnabled = false;
+
         if (IsFullscreen()) UnFullscreen();
         else Fullscreen();
+
+        _resizeHandlerEnabled = true;
     }
 
     private void OnWindowResizedHandler(object sender, SizeChangedEventArgs e)
