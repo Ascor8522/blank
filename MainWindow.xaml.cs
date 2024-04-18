@@ -1,5 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using KeyEventHandler = System.Windows.Input.KeyEventHandler;
+using Point = System.Windows.Point;
 
 namespace Blank;
 
@@ -21,10 +25,15 @@ public partial class MainWindow
 
     private void OnKeyDownHandler(object sender, KeyEventArgs e)
     {
-        if (e.Key != Key.F11) return;
-
-        if (IsFullscreen()) UnFullscreen();
-        else Fullscreen();
+        if (e.Key == Key.F11)
+        {
+            if (IsFullscreen()) UnFullscreen();
+            else Fullscreen();
+        }
+        else if (e.Key == Key.Escape && IsFullscreen())
+        {
+            UnFullscreen();
+        }
     }
 
     private void OnDoubleClickHandler(object sender, MouseButtonEventArgs e)
@@ -63,15 +72,17 @@ public partial class MainWindow
     private void OnMouseMoveHandler(object sender, EventArgs e)
     {
         if (Mouse.LeftButton != MouseButtonState.Pressed) return;
+        
+        if (!_resizeHandlerEnabled) return;
 
         if (_wasFullScreen)
         {
             _resizeHandlerEnabled = false;
-            
+
             UnFullscreen();
-            _wasFullScreen = false;
             CenterWindowAroundCursor();
-            
+            _wasFullScreen = false;
+
             _resizeHandlerEnabled = true;
         }
 
@@ -81,8 +92,8 @@ public partial class MainWindow
     private bool IsFullscreen()
     {
         return WindowStyle == WindowStyle.None
-               && WindowState == WindowState.Maximized
-               && Topmost;
+           && WindowState == WindowState.Maximized
+           && Topmost;
     }
 
     // exact order must be:
@@ -107,8 +118,13 @@ public partial class MainWindow
 
     private void CenterWindowAroundCursor()
     {
-        Point mousePos = PointToScreen(Mouse.GetPosition(this));
-        Left = mousePos.X - Width;
-        Top = mousePos.Y - Height;
+        Matrix? transform = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformFromDevice;
+        if (!transform.HasValue) return;
+        
+        System.Drawing.Point mouseDrawingPosition = Control.MousePosition;
+        Point mousePosition =  new Point(mouseDrawingPosition.X, mouseDrawingPosition.Y);
+        Point transformedMousePosition = transform.Value.Transform(mousePosition);
+        Left = transformedMousePosition.X - ActualWidth / 2;
+        Top = transformedMousePosition.Y - ActualHeight / 2;
     }
 }

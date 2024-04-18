@@ -7,14 +7,20 @@ on the [r/ProgrammingRequests Discord server](https://discord.gg/h9mJmn8Vpj).
 
 ## Usage
 
-To make the program fullscreen, maximize the window.
-This also works when
-snapping the window to the top of the screen,
-double-clicking the title bar,
-using the <kbd>Win</kbd> + <kbd>Up</kbd> keyboard shortcut,
-or pressing <kbd>F11</kbd>.
+To make the program fullscreen, either:
+- maximize the window
+- snap the window to the top of the screen
+- double-click the title bar
+- double-click the window's content
+- press <kbd>Win</kbd> + <kbd>Up</kbd>
+- press <kbd>F11</kbd>
 
-To exit fullscreen, click anywhere on the window, and start dragging the window.
+To exit fullscreen, either:
+- drag the window
+- double-click the window
+- press <kbd>Esc</kbd>
+- press <kbd>F11</kbd>
+- press <kbd>Win</kbd> + <kbd>Down</kbd>
 
 ## Building
 
